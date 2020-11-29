@@ -1,0 +1,2 @@
+﻿Dim oDoc As Inventor.Document = ThisApplication.ActiveDocument
+oDoc.Update

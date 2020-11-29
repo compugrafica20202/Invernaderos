@@ -1,0 +1,5 @@
+﻿
+PDFPath = "C:\Users\NITRO\Documents\Computación gráfica\Proyecto final\Planos PDF" 
+ThisDoc.Document.SaveAs(PDFPath & "\" & ThisDoc.FileName(False)&".pdf", True)
+ThisDoc.Launch(PDFPath & "\" & ThisDoc.FileName(False)&".pdf")
+

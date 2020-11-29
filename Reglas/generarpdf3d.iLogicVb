@@ -1,0 +1,45 @@
+﻿
+Dim oPDFAddIn As ApplicationAddIn
+Dim oAddin As ApplicationAddIn
+For Each oAddin In ThisApplication.ApplicationAddIns
+If oAddin.ClassIdString = "{3EE52B28-D6E0-4EA4-8AA6-C2A266DEBB88}" Then
+oPDFAddIn = oAddin
+Exit For
+End If
+Next
+
+Dim oPDFConvertor3D
+oPDFConvertor3D = oPDFAddIn.Automation
+
+'Documento Activo
+Dim oDocument As Document
+oDocument = ThisApplication.ActiveDocument
+
+' Create objeto
+Dim oOptions As NameValueMap
+oOptions = ThisApplication.TransientObjects.CreateNameValueMap
+
+' Opciones
+oOptions.Value("FileOutputLocation") = ("C:\Users\NITRO\Documents\Computación gráfica\Proyecto final\Planos PDF\"+ ThisDoc.FileName(False)+"3d.pdf")
+oOptions.Value("ExportAnnotations") = 0
+oOptions.Value("ExportWokFeatures") = 0
+oOptions.Value("GenerateAndAttachSTEPFile") = False
+oOptions.Value("LimitToEntitiesInDVRs") = True
+oOptions.Value("ExportAllProperties") = True
+ACCURACYtoUSE = AccuracyEnum.kMedium
+
+' the properties to export
+Dim sProps(0) As String
+sProps(0) = "{F29F85E0-4FF9-1068-AB91-08002B27B3D9}:Title"  ' Title
+
+' Export Current design view
+Dim sDesignViews(0) As String
+sDesignViews(0) = oDocument.ComponentDefinition.RepresentationsManager.ActiveDesignViewRepresentation.Name
+
+oOptions.Value("ExportDesignViewRepresentations") = sDesignViews
+ThisApplication.StatusBarText= "Exporting your 3D PDF --- This could take some time, depending on model size & complexity (as well as PDF accuracy), but it will be worth the wait --- We'll let you know when it's ready --- There is no progress bar" 
+'Publish document.
+Call oPDFConvertor3D.Publish(oDocument, oOptions)
+'ThisDoc.Launch("C:\Users\NITRO\Documents\Computación gráfica\Proyecto final\Planos PDF\Empaquetado2\Planos\"+ ThisDoc.FileName(False)+"3d.pdf")
+
+Return

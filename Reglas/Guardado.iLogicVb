@@ -1,0 +1,12 @@
+﻿Dim oDoc As Inventor.Document = ThisApplication.ActiveDocument
+Dim FName As String = oDoc.FullFileName
+
+Dim FNP As Integer = InStrRev(FName, "\", -1)
+Dim oPath As String = Left(FName, FNP)
+Dim oType As String
+Select Case oDoc.DocumentType
+Case kPartDocumentObject:     oType = ".ipt"
+Case kAssemblyDocumentObject: oType = ".iam"
+Case kDrawingDocumentObject:  oType = ".idw"
+End Select
+oDoc.SaveAs(oPath & oType, True)
